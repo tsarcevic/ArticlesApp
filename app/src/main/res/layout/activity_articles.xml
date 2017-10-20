@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/toolbar_text"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="56dp"
         android:background="@color/colorToolbar"
         android:gravity="center"
         android:text="@string/articles_toolbar"
@@ -34,6 +34,5 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="20dp"
         android:src="@drawable/ic_plus" />
-
 
 </RelativeLayout>

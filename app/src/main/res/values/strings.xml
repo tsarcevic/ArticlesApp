@@ -9,4 +9,11 @@
     <string name="article_details">Article details</string>
     <string name="edit_article">Edit article</string>
     <string name="save_changes_button">Save changes</string>
+
+    <string-array name="spinner_item">
+        <item>Politics</item>
+        <item>Sport</item>
+        <item>Development</item>
+        <item>Other</item>
+    </string-array>
 </resources>
