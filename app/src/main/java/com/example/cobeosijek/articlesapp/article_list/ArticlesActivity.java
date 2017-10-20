@@ -1,7 +1,9 @@
-package com.example.cobeosijek.articlesapp;
+package com.example.cobeosijek.articlesapp.article_list;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.cobeosijek.articlesapp.R;
 
 public class ArticlesActivity extends AppCompatActivity {
 

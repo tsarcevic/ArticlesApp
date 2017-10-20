@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ArticlesApp</string>
+    <string name="articles_toolbar">Articles</string>
+    <string name="add_article">Add article</string>
+    <string name="article_author_hint">Author</string>
+    <string name="article_title_hint">Title</string>
+    <string name="article_description_hint">Description</string>
+    <string name="save_button">Save</string>
+    <string name="article_details">Article details</string>
+    <string name="edit_article">Edit article</string>
+    <string name="save_changes_button">Save changes</string>
 </resources>
