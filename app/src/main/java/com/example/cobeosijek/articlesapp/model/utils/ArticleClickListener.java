@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.utils;
+package com.example.cobeosijek.articlesapp.model.utils;
 
 /**
  * Created by cobeosijek on 20/10/2017.

@@ -4,9 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.cobeosijek.articlesapp.Article;
+import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
+import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.R;
-import com.example.cobeosijek.articlesapp.utils.ArticleClickListener;
+import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
 
 /**
  * Created by cobeosijek on 20/10/2017.

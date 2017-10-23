@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cobeosijek.articlesapp.Article;
+import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.R;
-import com.example.cobeosijek.articlesapp.utils.ArticleClickListener;
+import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by cobeosijek on 20/10/2017.
  */
 
-public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> {
+public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> implements Serializable {
 
     private List<Article> articleList = new ArrayList<>();
 
@@ -24,6 +25,21 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> {
 
     public void setArticleClickListener(ArticleClickListener articleClickListener) {
         this.articleClickListener = articleClickListener;
+    }
+
+    public void setArticles(List<Article> articleList) {
+        this.articleList.clear();
+        this.articleList.addAll(articleList);
+        notifyDataSetChanged();
+    }
+
+    public void addArticle(Article article) {
+        articleList.add(article);
+        notifyDataSetChanged();
+    }
+
+    public List<Article> getArticleList() {
+        return articleList;
     }
 
     @Override
@@ -38,11 +54,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> {
         Article article = articleList.get(position);
 
         holder.setArticleInfo(article);
-
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return articleList.size();
     }
 }
