@@ -3,7 +3,6 @@ package com.example.cobeosijek.articlesapp.article_edit;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cobeosijek.articlesapp.App;
 import com.example.cobeosijek.articlesapp.R;
@@ -35,10 +35,11 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
     Spinner articleCategory;
     Button editArticle;
 
-    int id;
     Article article;
 
     ArrayAdapter<String> spinnerAdapter;
+
+    DatabaseHelper dbHelper;
 
     public static Intent getLaunchIntent(Context from, int id) {
         Intent intent = new Intent(from, EditArticleActivity.class);
@@ -48,13 +49,19 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_article);
 
+        setDBInstance();
         setUI();
         getExtras();
         fillInfo();
+    }
+
+    private void setDBInstance() {
+        dbHelper = new DatabaseHelper();
+        dbHelper.setRealmInstance(App.getRealm());
     }
 
     private void setUI() {
@@ -75,22 +82,25 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
 
     private void getExtras() {
         if (getIntent().hasExtra(KEY_ID_EDIT_ARTICLE)) {
-            id = getIntent().getIntExtra(KEY_ID_EDIT_ARTICLE, -1);
+            if (dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_EDIT_ARTICLE, -1)) != null) {
+                article = dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_EDIT_ARTICLE, -1));
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.no_article, Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            }
         }
     }
 
     private void fillInfo() {
-        DatabaseHelper dbHelper = new DatabaseHelper(App.getRealm());
+        if (article != null) {
+            titleName.setText(article.getTitle());
+            authorName.setText(article.getAuthor());
+            description.setText(article.getDescription());
 
-        article = dbHelper.getArticle(id);
+            int spinnerPosition = spinnerAdapter.getPosition(article.getArticleType());
 
-        titleName.setText(article.getTitle());
-        authorName.setText(article.getAuthor());
-        description.setText(article.getDescription());
-
-        int spinnerPosition = spinnerAdapter.getPosition(article.getArticleType());
-
-        articleCategory.setSelection(spinnerPosition);
+            articleCategory.setSelection(spinnerPosition);
+        }
     }
 
     @Override
@@ -112,30 +122,30 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void editArticle() {
-        DatabaseHelper dbHelper = new DatabaseHelper(App.getRealm());
+        if (article != null) {
+            article.setAuthor(authorName.getText().toString().trim());
+            article.setTitle(titleName.getText().toString().trim());
+            article.setDescription(description.getText().toString().trim());
+            article.setArticleType(articleCategory.getSelectedItem().toString());
 
-        article.setAuthor(authorName.getText().toString().trim());
-        article.setTitle(titleName.getText().toString().trim());
-        article.setDescription(description.getText().toString().trim());
-        article.setArticleType(articleCategory.getSelectedItem().toString());
-
-        dbHelper.updateArticle(article);
+            dbHelper.updateArticle(article);
+        }
     }
 
     private boolean checkForEmptyString() {
         boolean nonEmptyField = true;
 
-        if (!StringUtils.checkIfStringIsEmpty(authorName.getText().toString().trim())) {
+        if (!StringUtils.checkIfStringNotEmpty(authorName.getText().toString().trim())) {
             authorName.setError(getString(R.string.blank_field));
             nonEmptyField = false;
         }
 
-        if (!StringUtils.checkIfStringIsEmpty(titleName.getText().toString().trim())) {
+        if (!StringUtils.checkIfStringNotEmpty(titleName.getText().toString().trim())) {
             titleName.setError(getString(R.string.blank_field));
             nonEmptyField = false;
         }
 
-        if (!StringUtils.checkIfStringIsEmpty(description.getText().toString().trim())) {
+        if (!StringUtils.checkIfStringNotEmpty(description.getText().toString().trim())) {
             description.setError(getString(R.string.blank_field));
             nonEmptyField = false;
         }

@@ -35,7 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:hint="@string/article_author_hint" />
+        android:hint="@string/article_author_hint"
+        android:maxLines="2"
+        android:scrollbars="vertical"/>
 
     <EditText
         android:id="@+id/article_title"
@@ -43,7 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:hint="@string/article_title_hint" />
+        android:hint="@string/article_title_hint"
+        android:maxLines="2"
+        android:scrollbars="vertical"/>
 
     <EditText
         android:id="@+id/article_description"
@@ -51,7 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:hint="@string/article_description_hint" />
+        android:hint="@string/article_description_hint"
+        android:maxLines="6"
+        android:scrollbars="vertical" />
 
     <Spinner
         android:id="@+id/category_picker"

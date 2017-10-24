@@ -5,7 +5,7 @@ package com.example.cobeosijek.articlesapp.model.utils;
  */
 
 public class StringUtils {
-    public static boolean checkIfStringIsEmpty (String string) {
-        return !(string.trim().isEmpty() || string == null);
+    public static boolean checkIfStringNotEmpty(String string) {
+        return !string.isEmpty() && string != null;
     }
 }

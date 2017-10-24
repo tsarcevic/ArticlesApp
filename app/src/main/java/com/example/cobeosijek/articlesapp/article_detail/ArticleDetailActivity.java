@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cobeosijek.articlesapp.App;
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.article_edit.EditArticleActivity;
 import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
+import com.example.cobeosijek.articlesapp.model.Article;
 
 /**
  * Created by cobeosijek on 24/10/2017.
@@ -29,7 +32,9 @@ public class ArticleDetailActivity extends AppCompatActivity implements View.OnC
     ImageView backButton;
     ImageView editButton;
 
-    int articlePosition;
+    Article article;
+
+    DatabaseHelper dbHelper;
 
     public static Intent getLaunchIntent(Context from, int id) {
         Intent intent = new Intent(from, ArticleDetailActivity.class);
@@ -43,6 +48,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_details);
 
+        setDBInstance();
         setUI();
         getExtras();
         fillInfo();
@@ -53,6 +59,11 @@ public class ArticleDetailActivity extends AppCompatActivity implements View.OnC
         fillInfo();
 
         super.onResume();
+    }
+
+    private void setDBInstance() {
+        dbHelper = new DatabaseHelper();
+        dbHelper.setRealmInstance(App.getRealm());
     }
 
     private void setUI() {
@@ -66,21 +77,30 @@ public class ArticleDetailActivity extends AppCompatActivity implements View.OnC
 
         backButton.setOnClickListener(this);
         editButton.setOnClickListener(this);
+
+        titleText.setMovementMethod(new ScrollingMovementMethod());
+        authorText.setMovementMethod(new ScrollingMovementMethod());
+        descriptionText.setMovementMethod(new ScrollingMovementMethod());
     }
 
     private void getExtras() {
         if (getIntent().hasExtra(KEY_ID_ARTICLE_DETAIL)) {
-            articlePosition = getIntent().getIntExtra(KEY_ID_ARTICLE_DETAIL, -1);
+            if (dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_ARTICLE_DETAIL, -1)) != null) {
+                article = dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_ARTICLE_DETAIL, -1));
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.no_article, Toast.LENGTH_SHORT).show();
+                onBackPressed();
+            }
         }
     }
 
     private void fillInfo() {
-        DatabaseHelper dbHelper = new DatabaseHelper(App.getRealm());
+        getExtras();
 
-        titleText.setText(dbHelper.getAllArticles().get(articlePosition).getTitle());
-        authorText.setText(String.format(getString(R.string.author_details), dbHelper.getAllArticles().get(articlePosition).getAuthor()));
-        typeText.setText(String.format(getString(R.string.type_description), dbHelper.getAllArticles().get(articlePosition).getArticleType()));
-        descriptionText.setText(dbHelper.getAllArticles().get(articlePosition).getDescription());
+        titleText.setText(article.getTitle());
+        authorText.setText(String.format(getString(R.string.author_details), article.getAuthor()));
+        typeText.setText(String.format(getString(R.string.type_description), article.getArticleType()));
+        descriptionText.setText(article.getDescription());
     }
 
     @Override
@@ -91,7 +111,7 @@ public class ArticleDetailActivity extends AppCompatActivity implements View.OnC
 
                 break;
             case R.id.edit_button:
-                startActivity(EditArticleActivity.getLaunchIntent(this, articlePosition));
+                startActivity(EditArticleActivity.getLaunchIntent(this, article.getId()));
 
                 break;
         }

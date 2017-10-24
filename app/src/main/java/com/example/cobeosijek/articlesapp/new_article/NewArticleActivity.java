@@ -23,7 +23,7 @@ import com.example.cobeosijek.articlesapp.model.utils.StringUtils;
  * Created by cobeosijek on 23/10/2017.
  */
 
-public class NewArticle extends AppCompatActivity implements View.OnClickListener {
+public class NewArticleActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView toolbarText;
     ImageView backButton;
@@ -34,7 +34,7 @@ public class NewArticle extends AppCompatActivity implements View.OnClickListene
     Button addArticle;
 
     public static Intent getLaunchIntent(Context from) {
-        return new Intent(from, NewArticle.class);
+        return new Intent(from, NewArticleActivity.class);
     }
 
     @Override
@@ -81,25 +81,27 @@ public class NewArticle extends AppCompatActivity implements View.OnClickListene
     }
 
     private void addNewArticle() {
-        DatabaseHelper dbHelper = new DatabaseHelper(App.getRealm());
+        DatabaseHelper dbHelper = new DatabaseHelper();
+        dbHelper.setRealmInstance(App.getRealm());
 
-        dbHelper.addArticle(new Article(authorName.getText().toString().trim(), titleName.getText().toString().trim(), description.getText().toString().trim(), articleCategory.getSelectedItem().toString()));
+        dbHelper.addArticle(new Article(authorName.getText().toString().trim(), titleName.getText().toString().trim(),
+                description.getText().toString().trim(), articleCategory.getSelectedItem().toString()));
     }
 
     private boolean checkForEmptyString() {
         boolean nonEmptyField = true;
 
-        if (!StringUtils.checkIfStringIsEmpty(authorName.getText().toString().trim())) {
+        if (!StringUtils.checkIfStringNotEmpty(authorName.getText().toString().trim())) {
             authorName.setError(getString(R.string.blank_field));
             nonEmptyField = false;
         }
 
-        if (!StringUtils.checkIfStringIsEmpty(titleName.getText().toString().trim())) {
+        if (!StringUtils.checkIfStringNotEmpty(titleName.getText().toString().trim())) {
             titleName.setError(getString(R.string.blank_field));
             nonEmptyField = false;
         }
 
-        if (!StringUtils.checkIfStringIsEmpty(description.getText().toString().trim())) {
+        if (!StringUtils.checkIfStringNotEmpty(description.getText().toString().trim())) {
             description.setError(getString(R.string.blank_field));
             nonEmptyField = false;
         }

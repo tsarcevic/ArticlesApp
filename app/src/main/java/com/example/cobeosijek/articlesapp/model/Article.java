@@ -1,7 +1,5 @@
 package com.example.cobeosijek.articlesapp.model;
 
-import com.example.cobeosijek.articlesapp.model.utils.ArticleType;
-
 import java.io.Serializable;
 
 import io.realm.RealmObject;
@@ -49,7 +47,7 @@ public class Article extends RealmObject implements Serializable {
     }
 
     public String getArticleType() {
-        return articleType;
+        return getValueOrEmpty(articleType);
     }
 
     public void setID(int ID) {

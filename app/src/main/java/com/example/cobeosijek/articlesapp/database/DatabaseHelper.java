@@ -1,5 +1,8 @@
 package com.example.cobeosijek.articlesapp.database;
 
+import android.content.res.Resources;
+
+import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.model.Article;
 
 import java.util.List;
@@ -12,9 +15,12 @@ import io.realm.Realm;
 
 public class DatabaseHelper {
 
-    private final Realm realm;
+    private Realm realm;
 
-    public DatabaseHelper(Realm realm) {
+    public DatabaseHelper() {
+    }
+
+    public void setRealmInstance(Realm realm) {
         this.realm = realm;
     }
 
@@ -24,10 +30,10 @@ public class DatabaseHelper {
 
             realm.beginTransaction();
 
-            if(realm.where(Article.class).count() == 0) {
+            if (realm.where(Article.class).count() == 0) {
                 id = 0;
             } else {
-                id = realm.where(Article.class).max("id").intValue() + 1;
+                    id = realm.where(Article.class).max("id").intValue() + 1;
             }
 
             article.setID(id);
@@ -46,6 +52,7 @@ public class DatabaseHelper {
     public Article getArticle(int id) {
         return realm.copyFromRealm(realm.where(Article.class).equalTo("id", id).findFirst());
     }
+
     public void updateArticle(Article article) {
         if (article != null) {
             realm.beginTransaction();

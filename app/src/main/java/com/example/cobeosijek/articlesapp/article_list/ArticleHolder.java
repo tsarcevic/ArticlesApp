@@ -31,17 +31,17 @@ public class ArticleHolder extends RecyclerView.ViewHolder implements View.OnCli
         itemView.setOnLongClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        if (articleClickListener != null) {
-            articleClickListener.onArticleClicked(getAdapterPosition());
-        }
-    }
-
     public void setArticleInfo(Article article) {
         if (article != null) {
             articleName.setText(article.getTitle());
             articleAuthor.setText(article.getAuthor());
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (articleClickListener != null) {
+            articleClickListener.onArticleClicked(getAdapterPosition());
         }
     }
 

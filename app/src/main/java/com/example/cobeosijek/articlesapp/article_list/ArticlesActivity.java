@@ -16,7 +16,7 @@ import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.article_detail.ArticleDetailActivity;
 import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
 import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
-import com.example.cobeosijek.articlesapp.new_article.NewArticle;
+import com.example.cobeosijek.articlesapp.new_article.NewArticleActivity;
 
 public class ArticlesActivity extends AppCompatActivity implements View.OnClickListener, ArticleClickListener {
 
@@ -26,6 +26,7 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
     TextView toolbarText;
 
     ArticleListAdapter articleAdapter;
+
     DatabaseHelper dbHelper;
 
     @Override
@@ -33,7 +34,20 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_articles);
 
+        setDBInstance();
         setUI();
+    }
+
+    @Override
+    protected void onResume() {
+        loadData();
+
+        super.onResume();
+    }
+
+    private void setDBInstance() {
+        dbHelper = new DatabaseHelper();
+        dbHelper.setRealmInstance(App.getRealm());
     }
 
     private void setUI() {
@@ -42,12 +56,9 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
         showNoData = findViewById(R.id.no_data_text);
         toolbarText = findViewById(R.id.toolbar_text);
 
-        dbHelper = new DatabaseHelper(App.getRealm());
-
         articleAdapter = new ArticleListAdapter();
         articleAdapter.setArticleClickListener(this);
         loadData();
-
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
@@ -63,7 +74,7 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.add_button) {
-            startActivity(NewArticle.getLaunchIntent(this));
+            startActivity(NewArticleActivity.getLaunchIntent(this));
         }
     }
 
@@ -79,7 +90,7 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
 
     private void showExitDialog(final int position) {
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         alertDialog.setMessage(R.string.alert_dialog_text)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -90,8 +101,8 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
                 });
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface positiveDialog, int which) {
-                positiveDialog.cancel();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
         });
 
@@ -100,7 +111,6 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void deleteArticle(int position) {
-        DatabaseHelper dbHelper = new DatabaseHelper(App.getRealm());
         dbHelper.deleteArticle(articleAdapter.getArticleList().get(position));
 
         loadData();
@@ -116,12 +126,5 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
             showNoData.setVisibility(View.GONE);
         }
 
-    }
-
-    @Override
-    protected void onResume() {
-        loadData();
-
-        super.onResume();
     }
 }

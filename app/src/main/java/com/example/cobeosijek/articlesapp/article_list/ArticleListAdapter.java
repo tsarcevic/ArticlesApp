@@ -29,13 +29,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> impl
 
     public void setArticles(List<Article> articleList) {
         this.articleList.clear();
-        this.articleList.addAll(articleList);
-        notifyDataSetChanged();
-    }
-
-    public void addArticle(Article article) {
-        articleList.add(article);
-        notifyDataSetChanged();
+        if (articleList != null || !articleList.isEmpty()) {
+            this.articleList.addAll(articleList);
+            notifyDataSetChanged();
+        }
     }
 
     public List<Article> getArticleList() {
