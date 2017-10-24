@@ -69,7 +69,7 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onArticleClicked(int position) {
-        startActivity(ArticleDetailActivity.getLaunchIntent(this, position));
+        startActivity(ArticleDetailActivity.getLaunchIntent(this, dbHelper.getAllArticles().get(position).getId()));
     }
 
     @Override
@@ -77,8 +77,7 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
         showExitDialog(position);
     }
 
-    private void showExitDialog(int position) {
-        final int innerClassPosition = position;
+    private void showExitDialog(final int position) {
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -86,7 +85,7 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteArticle(innerClassPosition);
+                        deleteArticle(position);
                     }
                 });
         alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

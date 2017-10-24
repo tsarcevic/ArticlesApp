@@ -15,9 +15,9 @@ import static com.example.cobeosijek.articlesapp.model.utils.BaseModel.getValueO
 
 public class Article extends RealmObject implements Serializable {
 
-    private static int id = 0;
-    private String author;
     @PrimaryKey
+    private int id = 0;
+    private String author;
     private String title;
     private String description;
     private String articleType;
@@ -30,10 +30,9 @@ public class Article extends RealmObject implements Serializable {
         this.title = title;
         this.description = description;
         this.articleType = articleType;
-        id++;
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
@@ -51,5 +50,25 @@ public class Article extends RealmObject implements Serializable {
 
     public String getArticleType() {
         return articleType;
+    }
+
+    public void setID(int ID) {
+        this.id = ID;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setArticleType(String articleType) {
+        this.articleType = articleType;
     }
 }

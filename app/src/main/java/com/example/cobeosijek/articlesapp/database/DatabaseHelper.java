@@ -20,7 +20,17 @@ public class DatabaseHelper {
 
     public void addArticle(Article article) {
         if (article != null) {
+            int id;
+
             realm.beginTransaction();
+
+            if(realm.where(Article.class).count() == 0) {
+                id = 0;
+            } else {
+                id = realm.where(Article.class).max("id").intValue() + 1;
+            }
+
+            article.setID(id);
 
             realm.copyToRealm(article);
 
@@ -32,6 +42,10 @@ public class DatabaseHelper {
         return realm.copyFromRealm(realm.where(Article.class).findAll());
     }
 
+
+    public Article getArticle(int id) {
+        return realm.copyFromRealm(realm.where(Article.class).equalTo("id", id).findFirst());
+    }
     public void updateArticle(Article article) {
         if (article != null) {
             realm.beginTransaction();

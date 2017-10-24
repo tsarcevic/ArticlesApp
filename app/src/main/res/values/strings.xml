@@ -13,6 +13,8 @@
     <string name="alert_dialog_text">Are you sure you want to delete this article?</string>
     <string name="blank_field">Blank field!</string>
     <string name="new_article_added">You added new article!</string>
+    <string name="author_details">Author: %s</string>
+    <string name="type_description">Type: %s</string>
 
     <string-array name="spinner_item">
         <item>Politics</item>
