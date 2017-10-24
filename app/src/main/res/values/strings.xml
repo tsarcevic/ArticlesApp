@@ -10,6 +10,9 @@
     <string name="edit_article">Edit article</string>
     <string name="save_changes_button">Save changes</string>
     <string name="no_data_recycler">No data</string>
+    <string name="alert_dialog_text">Are you sure you want to delete this article?</string>
+    <string name="blank_field">Blank field!</string>
+    <string name="new_article_added">You added new article!</string>
 
     <string-array name="spinner_item">
         <item>Politics</item>

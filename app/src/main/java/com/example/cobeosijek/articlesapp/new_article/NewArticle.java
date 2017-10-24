@@ -72,7 +72,7 @@ public class NewArticle extends AppCompatActivity implements View.OnClickListene
             case R.id.add_article:
                 if (checkForEmptyString()) {
                     addNewArticle();
-                    Toast.makeText(getApplicationContext(), "You added new article!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.new_article_added, Toast.LENGTH_SHORT).show();
                     onBackPressed();
                 }
 
@@ -87,8 +87,23 @@ public class NewArticle extends AppCompatActivity implements View.OnClickListene
     }
 
     private boolean checkForEmptyString() {
-        return (StringUtils.checkIfStringIsEmpty(authorName.getText().toString()) &&
-                StringUtils.checkIfStringIsEmpty(titleName.getText().toString()) &&
-                StringUtils.checkIfStringIsEmpty(description.getText().toString()));
+        boolean nonEmptyField = true;
+
+        if (!StringUtils.checkIfStringIsEmpty(authorName.getText().toString().trim())) {
+            authorName.setError(getString(R.string.blank_field));
+            nonEmptyField = false;
+        }
+
+        if (!StringUtils.checkIfStringIsEmpty(titleName.getText().toString().trim())) {
+            titleName.setError(getString(R.string.blank_field));
+            nonEmptyField = false;
+        }
+
+        if (!StringUtils.checkIfStringIsEmpty(description.getText().toString().trim())) {
+            description.setError(getString(R.string.blank_field));
+            nonEmptyField = false;
+        }
+
+        return nonEmptyField;
     }
 }

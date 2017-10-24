@@ -20,6 +20,7 @@
             android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -28,6 +29,7 @@
             android:src="@drawable/ic_back_button" />
 
         <ImageView
+            android:id="@+id/edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -38,33 +40,33 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/article_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="heheh"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/article_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="heheh" />
+        android:layout_marginTop="10dp" />
 
     <TextView
+        android:id="@+id/article_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="heheh" />
+        android:layout_marginTop="10dp" />
 
     <TextView
+        android:id="@+id/article_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="heheh" />
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

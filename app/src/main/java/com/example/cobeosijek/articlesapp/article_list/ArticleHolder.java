@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
 import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
@@ -13,7 +12,7 @@ import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
  * Created by cobeosijek on 20/10/2017.
  */
 
-public class ArticleHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ArticleHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
     TextView articleName;
     TextView articleAuthor;
@@ -29,12 +28,13 @@ public class ArticleHolder extends RecyclerView.ViewHolder implements View.OnCli
         this.articleClickListener = articleClickListener;
 
         itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (articleClickListener != null) {
-            articleClickListener.onArticleSelected(getAdapterPosition());
+            articleClickListener.onArticleClicked(getAdapterPosition());
         }
     }
 
@@ -43,5 +43,13 @@ public class ArticleHolder extends RecyclerView.ViewHolder implements View.OnCli
             articleName.setText(article.getTitle());
             articleAuthor.setText(article.getAuthor());
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (articleClickListener != null) {
+            articleClickListener.onArticleLongClicked(getAdapterPosition());
+        }
+        return false;
     }
 }
