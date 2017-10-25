@@ -6,7 +6,7 @@ package com.example.cobeosijek.articlesapp.model.utils;
 
 public interface ArticleClickListener {
 
-    void onArticleClicked(int position);
+    void onArticleClicked(int articleId);
 
-    void onArticleLongClicked(int position);
+    void onArticleLongClicked(int articleId);
 }

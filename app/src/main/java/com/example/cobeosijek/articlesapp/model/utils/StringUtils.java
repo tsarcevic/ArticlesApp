@@ -6,6 +6,6 @@ package com.example.cobeosijek.articlesapp.model.utils;
 
 public class StringUtils {
     public static boolean checkIfStringNotEmpty(String string) {
-        return !string.isEmpty() && string != null;
+        return string != null && !string.isEmpty();
     }
 }

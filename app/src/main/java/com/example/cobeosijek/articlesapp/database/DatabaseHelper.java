@@ -1,8 +1,7 @@
 package com.example.cobeosijek.articlesapp.database;
 
-import android.content.res.Resources;
+import android.support.annotation.Nullable;
 
-import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.model.Article;
 
 import java.util.List;
@@ -15,13 +14,20 @@ import io.realm.Realm;
 
 public class DatabaseHelper {
 
+    private static DatabaseHelper instance;
+
     private Realm realm;
 
-    public DatabaseHelper() {
+    private DatabaseHelper(Realm realm) {
+        this.realm = realm;
     }
 
-    public void setRealmInstance(Realm realm) {
-        this.realm = realm;
+    public static DatabaseHelper getInstance() {
+        if (instance == null) {
+            instance = new DatabaseHelper(Realm.getDefaultInstance());
+        }
+
+        return instance;
     }
 
     public void addArticle(Article article) {
@@ -33,7 +39,7 @@ public class DatabaseHelper {
             if (realm.where(Article.class).count() == 0) {
                 id = 0;
             } else {
-                    id = realm.where(Article.class).max("id").intValue() + 1;
+                id = realm.where(Article.class).max("id").intValue() + 1;
             }
 
             article.setID(id);
@@ -49,6 +55,7 @@ public class DatabaseHelper {
     }
 
 
+    @Nullable
     public Article getArticle(int id) {
         return realm.copyFromRealm(realm.where(Article.class).equalTo("id", id).findFirst());
     }
@@ -63,17 +70,16 @@ public class DatabaseHelper {
         }
     }
 
-    public void deleteArticle(Article article) {
-        if (article != null) {
-            realm.beginTransaction();
+    public void deleteArticle(int articleId) {
+        realm.beginTransaction();
 
-            Article articleToDelete = realm.where(Article.class).equalTo("title", article.getTitle()).findFirst();
+        Article articleToDelete = realm.where(Article.class).equalTo("id", articleId).findFirst();
 
-            if (articleToDelete != null) {
-                articleToDelete.deleteFromRealm();
-            }
-
-            realm.commitTransaction();
+        if (articleToDelete != null) {
+            articleToDelete.deleteFromRealm();
         }
+
+        realm.commitTransaction();
+
     }
 }

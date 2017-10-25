@@ -17,6 +17,7 @@
     <string name="type_description">Type: %s</string>
     <string name="constant_id">id</string>
     <string name="no_article">No valid article</string>
+    <string name="result_intent_error">You haven\'t send anything!</string>
 
     <string-array name="spinner_item">
         <item>Politics</item>

@@ -8,47 +8,55 @@ import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+import butterknife.OnLongClick;
+
 /**
  * Created by cobeosijek on 20/10/2017.
  */
 
-public class ArticleHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+public class ArticleHolder extends RecyclerView.ViewHolder {
 
+    @BindView(R.id.article_name)
     TextView articleName;
+
+    @BindView(R.id.article_author)
     TextView articleAuthor;
 
     ArticleClickListener articleClickListener;
 
+    private int id;
+
     public ArticleHolder(View itemView, ArticleClickListener articleClickListener) {
         super(itemView);
 
-        articleName = itemView.findViewById(R.id.article_name);
-        articleAuthor = itemView.findViewById(R.id.article_author);
+        ButterKnife.bind(this, itemView);
 
         this.articleClickListener = articleClickListener;
-
-        itemView.setOnClickListener(this);
-        itemView.setOnLongClickListener(this);
     }
 
     public void setArticleInfo(Article article) {
         if (article != null) {
+            id = article.getId();
             articleName.setText(article.getTitle());
             articleAuthor.setText(article.getAuthor());
         }
     }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick
+    public void articleClicked() {
         if (articleClickListener != null) {
-            articleClickListener.onArticleClicked(getAdapterPosition());
+            articleClickListener.onArticleClicked(id);
         }
     }
 
-    @Override
-    public boolean onLongClick(View v) {
+    @OnLongClick
+    public boolean articleLongClicked() {
         if (articleClickListener != null) {
-            articleClickListener.onArticleLongClicked(getAdapterPosition());
+            articleClickListener.onArticleLongClicked(id);
         }
         return false;
     }

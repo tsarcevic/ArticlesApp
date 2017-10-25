@@ -29,52 +29,61 @@
 
     </FrameLayout>
 
-    <EditText
-        android:id="@+id/article_author"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/article_author_hint"
-        android:maxLines="2"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/article_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/article_title_hint"
-        android:maxLines="2"
-        android:scrollbars="vertical" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/article_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/article_description_hint"
-        android:maxLines="6"
-        android:scrollbars="vertical" />
+            <EditText
+                android:id="@+id/article_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/article_author_hint"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
 
-    <Spinner
-        android:id="@+id/category_picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp" />
+            <EditText
+                android:id="@+id/article_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/article_title_hint"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1" />
 
-    <Button
-        android:id="@+id/add_article"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorToolbar"
-        android:text="@string/save_button"
-        android:textColor="@color/toolbarText" />
+            <EditText
+                android:id="@+id/article_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:hint="@string/article_description_hint" />
 
+            <Spinner
+                android:id="@+id/category_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp" />
+
+            <Button
+                android:id="@+id/add_article"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@color/colorToolbar"
+                android:text="@string/save_button"
+                android:textColor="@color/toolbarText" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

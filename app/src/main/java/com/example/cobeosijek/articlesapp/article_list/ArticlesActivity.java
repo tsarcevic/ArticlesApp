@@ -1,8 +1,6 @@
 package com.example.cobeosijek.articlesapp.article_list;
 
-import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,15 +13,32 @@ import com.example.cobeosijek.articlesapp.App;
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.article_detail.ArticleDetailActivity;
 import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
+import com.example.cobeosijek.articlesapp.listeners.DeleteListener;
 import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
+import com.example.cobeosijek.articlesapp.model.utils.DialogUtils;
 import com.example.cobeosijek.articlesapp.new_article.NewArticleActivity;
 
-public class ArticlesActivity extends AppCompatActivity implements View.OnClickListener, ArticleClickListener {
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+public class ArticlesActivity extends AppCompatActivity implements ArticleClickListener, DeleteListener {
+
+    @BindView(R.id.article_recycler)
     RecyclerView articleList;
+
+    @BindView(R.id.add_button)
     FloatingActionButton addArticle;
+
+    @BindView(R.id.no_data_text)
     TextView showNoData;
+
+    @BindView(R.id.toolbar_text)
     TextView toolbarText;
+
+    @BindString(R.string.no_data_recycler)
+    String noData;
 
     ArticleListAdapter articleAdapter;
 
@@ -46,15 +61,11 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void setDBInstance() {
-        dbHelper = new DatabaseHelper();
-        dbHelper.setRealmInstance(App.getRealm());
+        dbHelper = DatabaseHelper.getInstance();
     }
 
     private void setUI() {
-        articleList = findViewById(R.id.article_recycler);
-        addArticle = findViewById(R.id.add_button);
-        showNoData = findViewById(R.id.no_data_text);
-        toolbarText = findViewById(R.id.toolbar_text);
+        ButterKnife.bind(this);
 
         articleAdapter = new ArticleListAdapter();
         articleAdapter.setArticleClickListener(this);
@@ -67,53 +78,25 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
         articleList.setLayoutManager(layoutManager);
 
         articleList.setAdapter(articleAdapter);
+    }
 
-        addArticle.setOnClickListener(this);
+    @OnClick(R.id.add_button)
+    void addArticle() {
+        startActivity(NewArticleActivity.getLaunchIntent(this));
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.add_button) {
-            startActivity(NewArticleActivity.getLaunchIntent(this));
-        }
+    public void onArticleClicked(int articleId) {
+        startActivity(ArticleDetailActivity.getLaunchIntent(this, articleId));
     }
 
     @Override
-    public void onArticleClicked(int position) {
-        startActivity(ArticleDetailActivity.getLaunchIntent(this, dbHelper.getAllArticles().get(position).getId()));
+    public void onArticleLongClicked(int articleId) {
+        showExitDialog(articleId);
     }
 
-    @Override
-    public void onArticleLongClicked(int position) {
-        showExitDialog(position);
-    }
-
-    private void showExitDialog(final int position) {
-
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        alertDialog.setMessage(R.string.alert_dialog_text)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteArticle(position);
-                    }
-                });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertShowDialog = alertDialog.create();
-        alertShowDialog.show();
-    }
-
-    private void deleteArticle(int position) {
-        dbHelper.deleteArticle(articleAdapter.getArticleList().get(position));
-
-        loadData();
+    private void showExitDialog(final int articleId) {
+        DialogUtils.showDialog(this, articleId, this);
     }
 
     public void loadData() {
@@ -121,10 +104,16 @@ public class ArticlesActivity extends AppCompatActivity implements View.OnClickL
 
         if (articleAdapter.getItemCount() < 1) {
             showNoData.setVisibility(View.VISIBLE);
-            showNoData.setText(R.string.no_data_recycler);
+            showNoData.setText(noData);
         } else {
             showNoData.setVisibility(View.GONE);
         }
+    }
 
+    @Override
+    public void onDeleteClicked(int articleId) {
+        dbHelper.deleteArticle(articleId);
+
+        loadData();
     }
 }

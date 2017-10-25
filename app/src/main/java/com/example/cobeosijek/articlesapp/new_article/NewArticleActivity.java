@@ -19,19 +19,45 @@ import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
 import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.model.utils.StringUtils;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by cobeosijek on 23/10/2017.
  */
 
-public class NewArticleActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewArticleActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar_text)
     TextView toolbarText;
+
+    @BindView(R.id.back_button)
     ImageView backButton;
+
+    @BindView(R.id.article_author)
     EditText authorName;
+
+    @BindView(R.id.article_title)
     EditText titleName;
+
+    @BindView(R.id.article_description)
     EditText description;
+
+    @BindView(R.id.category_picker)
     Spinner articleCategory;
+
+    @BindView(R.id.add_article)
     Button addArticle;
+
+    @BindString(R.string.blank_field)
+    String blankField;
+
+    @BindString(R.string.new_article_added)
+    String newArticleAdded;
+
+    DatabaseHelper dbHelper;
 
     public static Intent getLaunchIntent(Context from) {
         return new Intent(from, NewArticleActivity.class);
@@ -46,43 +72,28 @@ public class NewArticleActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void setUI() {
-        toolbarText = findViewById(R.id.toolbar_text);
-        backButton = findViewById(R.id.back_button);
-        authorName = findViewById(R.id.article_author);
-        titleName = findViewById(R.id.article_title);
-        description = findViewById(R.id.article_description);
-        articleCategory = findViewById(R.id.category_picker);
-        addArticle = findViewById(R.id.add_article);
-
-        addArticle.setOnClickListener(this);
-        backButton.setOnClickListener(this);
+        ButterKnife.bind(this);
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_item));
         articleCategory.setAdapter(spinnerAdapter);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.back_button:
-                onBackPressed();
+    @OnClick(R.id.back_button)
+    void goBack() {
+        onBackPressed();
+    }
 
-                break;
-
-            case R.id.add_article:
-                if (checkForEmptyString()) {
-                    addNewArticle();
-                    Toast.makeText(getApplicationContext(), R.string.new_article_added, Toast.LENGTH_SHORT).show();
-                    onBackPressed();
-                }
-
-                break;
+    @OnClick(R.id.add_article)
+    void addArticle() {
+        if (checkForEmptyString()) {
+            addNewArticle();
+            Toast.makeText(App.getInstance(), newArticleAdded, Toast.LENGTH_SHORT).show();
+            onBackPressed();
         }
     }
 
     private void addNewArticle() {
-        DatabaseHelper dbHelper = new DatabaseHelper();
-        dbHelper.setRealmInstance(App.getRealm());
+        dbHelper = DatabaseHelper.getInstance();
 
         dbHelper.addArticle(new Article(authorName.getText().toString().trim(), titleName.getText().toString().trim(),
                 description.getText().toString().trim(), articleCategory.getSelectedItem().toString()));
@@ -92,17 +103,17 @@ public class NewArticleActivity extends AppCompatActivity implements View.OnClic
         boolean nonEmptyField = true;
 
         if (!StringUtils.checkIfStringNotEmpty(authorName.getText().toString().trim())) {
-            authorName.setError(getString(R.string.blank_field));
+            authorName.setError(blankField);
             nonEmptyField = false;
         }
 
         if (!StringUtils.checkIfStringNotEmpty(titleName.getText().toString().trim())) {
-            titleName.setError(getString(R.string.blank_field));
+            titleName.setError(blankField);
             nonEmptyField = false;
         }
 
         if (!StringUtils.checkIfStringNotEmpty(description.getText().toString().trim())) {
-            description.setError(getString(R.string.blank_field));
+            description.setError(blankField);
             nonEmptyField = false;
         }
 

@@ -1,5 +1,6 @@
 package com.example.cobeosijek.articlesapp.article_list;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +28,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> impl
         this.articleClickListener = articleClickListener;
     }
 
-    public void setArticles(List<Article> articleList) {
+    public void setArticles(@NonNull List<Article> articleList) {
         this.articleList.clear();
-        if (articleList != null || !articleList.isEmpty()) {
-            this.articleList.addAll(articleList);
-            notifyDataSetChanged();
-        }
+        this.articleList.addAll(articleList);
+        notifyDataSetChanged();
     }
 
     public List<Article> getArticleList() {

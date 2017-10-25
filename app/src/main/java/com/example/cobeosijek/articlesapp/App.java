@@ -10,10 +10,14 @@ import io.realm.RealmConfiguration;
  */
 
 public class App extends Application {
+
+    private static App instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        setInstance(this);
         Realm.init(this);
 
         RealmConfiguration config = new RealmConfiguration.Builder()
@@ -22,7 +26,11 @@ public class App extends Application {
         Realm.setDefaultConfiguration(config);
     }
 
-    public static Realm getRealm() {
-        return Realm.getDefaultInstance();
+    private static void setInstance(App app) {
+        instance = app;
+    }
+
+    public static App getInstance() {
+        return instance;
     }
 }

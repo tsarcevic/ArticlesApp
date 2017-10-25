@@ -37,7 +37,7 @@
         android:layout_marginTop="20dp"
         android:hint="@string/article_author_hint"
         android:maxLines="2"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
     <EditText
         android:id="@+id/article_title"
@@ -47,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:hint="@string/article_title_hint"
         android:maxLines="2"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
     <EditText
         android:id="@+id/article_description"
@@ -70,9 +70,7 @@
         android:id="@+id/save_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:background="@color/colorToolbar"
         android:text="@string/save_changes_button"
         android:textColor="@color/toolbarText" />

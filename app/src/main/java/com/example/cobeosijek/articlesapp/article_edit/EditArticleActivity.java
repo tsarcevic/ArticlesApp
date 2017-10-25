@@ -15,25 +15,51 @@ import android.widget.Toast;
 
 import com.example.cobeosijek.articlesapp.App;
 import com.example.cobeosijek.articlesapp.R;
+import com.example.cobeosijek.articlesapp.article_detail.ArticleDetailActivity;
 import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
 import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.model.utils.StringUtils;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by cobeosijek on 24/10/2017.
  */
 
-public class EditArticleActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditArticleActivity extends AppCompatActivity {
 
     private static String KEY_ID_EDIT_ARTICLE = "id";
+    private static String KEY_RESULT_CODE_EDIT_ARTICLE = "result_code";
 
+    @BindView(R.id.toolbar_text)
     TextView toolbarText;
+
+    @BindView(R.id.back_button)
     ImageView backButton;
+
+    @BindView(R.id.article_author)
     EditText authorName;
+
+    @BindView(R.id.article_title)
     EditText titleName;
+
+    @BindView(R.id.article_description)
     EditText description;
+
+    @BindView(R.id.category_picker)
     Spinner articleCategory;
-    Button editArticle;
+
+    @BindView(R.id.save_button)
+    Button saveArticle;
+
+    @BindString(R.string.no_article)
+    String noArticle;
+
+    @BindString(R.string.blank_field)
+    String blankField;
 
     Article article;
 
@@ -60,21 +86,11 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setDBInstance() {
-        dbHelper = new DatabaseHelper();
-        dbHelper.setRealmInstance(App.getRealm());
+        dbHelper = DatabaseHelper.getInstance();
     }
 
     private void setUI() {
-        toolbarText = findViewById(R.id.toolbar_text);
-        backButton = findViewById(R.id.back_button);
-        authorName = findViewById(R.id.article_author);
-        titleName = findViewById(R.id.article_title);
-        description = findViewById(R.id.article_description);
-        articleCategory = findViewById(R.id.category_picker);
-        editArticle = findViewById(R.id.save_button);
-
-        editArticle.setOnClickListener(this);
-        backButton.setOnClickListener(this);
+        ButterKnife.bind(this);
 
         spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_item));
         articleCategory.setAdapter(spinnerAdapter);
@@ -82,12 +98,12 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
 
     private void getExtras() {
         if (getIntent().hasExtra(KEY_ID_EDIT_ARTICLE)) {
-            if (dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_EDIT_ARTICLE, -1)) != null) {
-                article = dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_EDIT_ARTICLE, -1));
-            } else {
-                Toast.makeText(getApplicationContext(), R.string.no_article, Toast.LENGTH_SHORT).show();
-                onBackPressed();
-            }
+            article = dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_EDIT_ARTICLE, -1));
+        }
+
+        if (article == null) {
+            Toast.makeText(App.getInstance(), noArticle, Toast.LENGTH_SHORT).show();
+            onBackPressed();
         }
     }
 
@@ -103,22 +119,22 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.back_button:
-                onBackPressed();
-
-                break;
-
-            case R.id.save_button:
-                if (checkForEmptyString()) {
-                    editArticle();
-                    onBackPressed();
-                }
-
-                break;
+    @OnClick(R.id.save_button)
+    public void saveArticle() {
+        if (checkForEmptyString()) {
+            editArticle();
+            returnToPreviousState();
         }
+    }
+
+    @OnClick(R.id.back_button)
+    public void returnBack() {
+        onBackPressed();
+    }
+
+    private void returnToPreviousState() {
+        setResult(RESULT_OK, ArticleDetailActivity.getResultIntent(article));
+        finish();
     }
 
     private void editArticle() {
@@ -136,17 +152,17 @@ public class EditArticleActivity extends AppCompatActivity implements View.OnCli
         boolean nonEmptyField = true;
 
         if (!StringUtils.checkIfStringNotEmpty(authorName.getText().toString().trim())) {
-            authorName.setError(getString(R.string.blank_field));
+            authorName.setError(blankField);
             nonEmptyField = false;
         }
 
         if (!StringUtils.checkIfStringNotEmpty(titleName.getText().toString().trim())) {
-            titleName.setError(getString(R.string.blank_field));
+            titleName.setError(blankField);
             nonEmptyField = false;
         }
 
         if (!StringUtils.checkIfStringNotEmpty(description.getText().toString().trim())) {
-            description.setError(getString(R.string.blank_field));
+            description.setError(blankField);
             nonEmptyField = false;
         }
 
