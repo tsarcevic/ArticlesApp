@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.cobeosijek.articlesapp.App;
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.article_detail.ArticleDetailActivity;
 import com.example.cobeosijek.articlesapp.database.DatabaseHelper;

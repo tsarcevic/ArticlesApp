@@ -18,6 +18,9 @@
     <string name="constant_id">id</string>
     <string name="no_article">No valid article</string>
     <string name="result_intent_error">You haven\'t send anything!</string>
+    <string name="prvi_fragment">Welcome to ArticlesApp!</string>
+    <string name="drugi_fragment">This is app where you can read articles and add new articles. If you want to add new article, you have to press "+" button on the bottom right corner. You have to enter all fields to make new article</string>
+    <string name="treci_fragment">If everything is ok, press right button to enter app, if not, press back button to read tutorial again</string>
 
     <string-array name="spinner_item">
         <item>Politics</item>

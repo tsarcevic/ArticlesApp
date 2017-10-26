@@ -12,13 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".article_list.ArticlesActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".new_article.NewArticleActivity"
@@ -31,6 +25,17 @@
         <activity
             android:name=".article_edit.EditArticleActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".on_board.StartingActivity"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
