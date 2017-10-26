@@ -33,20 +33,25 @@ public class FirstFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.first_fragment, null);
+       return inflater.inflate(R.layout.first_fragment, container, false);
 
-        return layout;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ButterKnife.bind(this, view);
+        prepareUi(view);
     }
 
     @OnClick(R.id.forward_button)
     public void onRightButtonClicked() {
         replaceFragment(R.id.fragment_layout, SecondFragment.newInstance(), true);
+    }
+
+    @Override
+    protected void prepareUi(View view) {
+        ButterKnife.bind(this, view);
+
     }
 }

@@ -2,17 +2,16 @@ package com.example.cobeosijek.articlesapp.on_board;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.cobeosijek.articlesapp.R;
+import com.example.cobeosijek.articlesapp.base.BaseActivity;
 import com.example.cobeosijek.articlesapp.on_board.fragments.FirstFragment;
 
 /**
  * Created by cobeosijek on 25/10/2017.
  */
 
-public class StartingActivity extends AppCompatActivity {
+public class StartingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,7 +22,20 @@ public class StartingActivity extends AppCompatActivity {
     }
 
     private void setUpFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, FirstFragment.newInstance()).commit();
+        addFragment(R.id.fragment_layout, FirstFragment.newInstance());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void prepareUi() {
+
     }
 }

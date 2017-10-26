@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cobeosijek.articlesapp.R;
+import com.example.cobeosijek.articlesapp.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +20,7 @@ import butterknife.OnClick;
  * Created by cobeosijek on 25/10/2017.
  */
 
-public class SecondFragment extends android.support.v4.app.Fragment {
+public class SecondFragment extends BaseFragment {
     @BindView(R.id.forward_button)
     ImageView forwardButton;
 
@@ -29,8 +30,6 @@ public class SecondFragment extends android.support.v4.app.Fragment {
     @BindView(R.id.second_fragment_text)
     TextView secondFragmentText;
 
-    FragmentManager fragmentManager;
-
     public static SecondFragment newInstance() {
         return new SecondFragment();
     }
@@ -38,9 +37,7 @@ public class SecondFragment extends android.support.v4.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.second_fragment, null);
-
-        return layout;
+        return inflater.inflate(R.layout.second_fragment, container, false);
     }
 
     @Override
@@ -48,20 +45,20 @@ public class SecondFragment extends android.support.v4.app.Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
-        setFragmentManager();
-    }
-
-    private void setFragmentManager() {
-        fragmentManager = getFragmentManager();
     }
 
     @OnClick(R.id.forward_button)
     public void onRightButtonCLicked() {
-        fragmentManager.beginTransaction().replace(R.id.fragment_layout, ThirdFragment.newInstance()).addToBackStack(null).commit();
+        replaceFragment(R.id.fragment_layout, ThirdFragment.newInstance(), true);
     }
 
     @OnClick(R.id.back_button)
     public void onLeftButtonCLicked() {
-        fragmentManager.beginTransaction().replace(R.id.fragment_layout, FirstFragment.newInstance()).addToBackStack(null).commit();
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    protected void prepareUi(View view) {
+
     }
 }
