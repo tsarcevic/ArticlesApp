@@ -52,6 +52,5 @@ public class FirstFragment extends BaseFragment {
     @Override
     protected void prepareUi(View view) {
         ButterKnife.bind(this, view);
-
     }
 }

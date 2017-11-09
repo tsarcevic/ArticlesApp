@@ -64,5 +64,4 @@ public class ThirdFragment extends BaseFragment {
     public void onLeftButtonCLicked() {
         getActivity().onBackPressed();
     }
-
 }

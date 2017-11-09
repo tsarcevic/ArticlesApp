@@ -36,6 +36,5 @@ public class StartingActivity extends BaseActivity {
 
     @Override
     protected void prepareUi() {
-
     }
 }

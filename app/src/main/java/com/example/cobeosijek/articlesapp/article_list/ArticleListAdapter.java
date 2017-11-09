@@ -50,6 +50,11 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> impl
         Article article = articleList.get(position);
 
         holder.setArticleInfo(article);
+        if(position%2 == 0) {
+            holder.setGray();
+        } else {
+            holder.setWhite();
+        }
     }
 
     @Override
