@@ -3,10 +3,7 @@ package com.example.cobeosijek.articlesapp.article_detail;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,24 +11,20 @@ import android.widget.Toast;
 import com.example.cobeosijek.articlesapp.App;
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.article_edit.EditArticleActivity;
-import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
-import com.example.cobeosijek.articlesapp.model.Article;
+import com.example.cobeosijek.articlesapp.database.DatabaseManager;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 
 /**
  * Created by cobeosijek on 24/10/2017.
  */
 
-public class ArticleDetailActivity extends AppCompatActivity {
+public class ArticleDetailActivity extends AppCompatActivity implements ArticleDetailInterface.View {
 
     private static String KEY_ID_ARTICLE_DETAIL = "id";
-    private static String KEY_CLASS_ARTICLE_DETAIL = "class";
-    private static int KEY_REQUEST_CODE_ARTICLE_DETAIL = 1;
 
     @BindView(R.id.toolbar_text)
     TextView toolbarText;
@@ -66,9 +59,9 @@ public class ArticleDetailActivity extends AppCompatActivity {
     @BindString(R.string.type_description)
     String articleType;
 
-    Article article;
+    int articleId;
 
-    DatabaseHelper dbHelper;
+    ArticleDetailInterface.Presenter presenter;
 
     public static Intent getLaunchIntent(Context from, int id) {
         Intent intent = new Intent(from, ArticleDetailActivity.class);
@@ -77,9 +70,9 @@ public class ArticleDetailActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static Intent getResultIntent(Article article) {
+    public static Intent getResultIntent(int articleId) {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(KEY_CLASS_ARTICLE_DETAIL, article);
+        resultIntent.putExtra(KEY_ID_ARTICLE_DETAIL, articleId);
 
         return resultIntent;
     }
@@ -89,21 +82,19 @@ public class ArticleDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_details);
 
-        setDBInstance();
+        presenter = new ArticleDetailPresenter(DatabaseManager.getDatabaseInstance());
+        presenter.setView(this);
+        presenter.viewReady();
+
         setUI();
         getExtras();
-        fillInfo();
     }
 
     @Override
     protected void onResume() {
-        fillInfo();
+        getExtras();
 
         super.onResume();
-    }
-
-    private void setDBInstance() {
-        dbHelper = DatabaseHelper.getInstance();
     }
 
     private void setUI() {
@@ -112,45 +103,58 @@ public class ArticleDetailActivity extends AppCompatActivity {
 
     private void getExtras() {
         if (getIntent().hasExtra(KEY_ID_ARTICLE_DETAIL)) {
-            article = dbHelper.getArticle(getIntent().getIntExtra(KEY_ID_ARTICLE_DETAIL, -1));
-        }
-
-        if (article == null) {
-            Toast.makeText(App.getInstance(), noString, Toast.LENGTH_SHORT).show();
-            onBackPressed();
+            articleId = getIntent().getIntExtra(KEY_ID_ARTICLE_DETAIL, -1);
+            if (articleId == -1) {
+                presenter.noDataToShow();
+            } else {
+                presenter.getArticleInfo(articleId);
+            }
         }
     }
 
-
-    private void fillInfo() {
-        getExtras();
-
-        titleText.setText(article.getTitle());
-        authorText.setText(String.format(authorDetails, article.getAuthor()));
-        typeText.setText(String.format(articleType, article.getArticleType()));
-        descriptionText.setText(article.getDescription());
+    @Override
+    public void showNoDataInfo() {
+        Toast.makeText(App.getInstance(), noString, Toast.LENGTH_SHORT).show();
+        presenter.noDataToShowNavigateBack();
     }
 
     @OnClick(R.id.back_button)
     void goBack() {
-        onBackPressed();
+        presenter.onBackPressed();
     }
 
     @OnClick(R.id.edit_button)
     void editText() {
-        startActivity(EditArticleActivity.getLaunchIntent(this, article.getId()));
+        presenter.onEditArticlePressed();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == KEY_REQUEST_CODE_ARTICLE_DETAIL) {
-//            if (resultCode == RESULT_OK) {
-//                fillInfo();
-//            } else {
-//                Toast.makeText(this, missingResultInIntent, Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    @Override
+    public void navigateToArticleEdit() {
+        startActivity(EditArticleActivity.getLaunchIntent(this, articleId));
+    }
+
+    @Override
+    public void navigateBack() {
+        onBackPressed();
+    }
+
+    @Override
+    public void setArticleAuthor(String author) {
+        authorText.setText(author);
+    }
+
+    @Override
+    public void setArticleTitle(String title) {
+        titleText.setText(title);
+    }
+
+    @Override
+    public void setArticleDescription(String description) {
+        descriptionText.setText(description);
+    }
+
+    @Override
+    public void setArticleType(String articleType) {
+        typeText.setText(articleType);
+    }
 }

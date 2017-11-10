@@ -13,4 +13,10 @@ public interface DatabaseInterface {
     List<Article> getData();
 
     void deleteArticle(int articleId);
+
+    void addArticle(String author, String title, String description, String type);
+
+    Article getArticleInfo(int articleId);
+
+    void updateArticle(String author, String title, String description, String type);
 }

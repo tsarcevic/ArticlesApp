@@ -11,7 +11,7 @@ import java.util.List;
 public class DatabaseManager implements DatabaseInterface {
 
     private static DatabaseManager dbManager;
-    private DatabaseHelper dbInstance;
+    private static DatabaseHelper dbInstance;
 
     public DatabaseManager() {
         dbInstance = DatabaseHelper.getInstance();
@@ -33,5 +33,20 @@ public class DatabaseManager implements DatabaseInterface {
     @Override
     public void deleteArticle(int articleId) {
         dbInstance.deleteArticle(articleId);
+    }
+
+    @Override
+    public void addArticle(String author, String title, String description, String type) {
+        dbInstance.addArticle(new Article(author, title, description, type));
+    }
+
+    @Override
+    public Article getArticleInfo(int articleId) {
+        return dbInstance.getArticle(articleId);
+    }
+
+    @Override
+    public void updateArticle(String author, String title, String description, String type) {
+        dbInstance.updateArticle(new Article(author, title, description, type));
     }
 }

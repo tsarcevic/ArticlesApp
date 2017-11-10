@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,11 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cobeosijek.articlesapp.App;
 import com.example.cobeosijek.articlesapp.R;
-import com.example.cobeosijek.articlesapp.database.DatabaseHelper;
-import com.example.cobeosijek.articlesapp.model.Article;
-import com.example.cobeosijek.articlesapp.model.utils.StringUtils;
+import com.example.cobeosijek.articlesapp.database.DatabaseManager;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -28,7 +24,7 @@ import butterknife.OnClick;
  * Created by cobeosijek on 23/10/2017.
  */
 
-public class NewArticleActivity extends AppCompatActivity {
+public class NewArticleActivity extends AppCompatActivity implements NewArticleInterface.View {
 
     @BindView(R.id.toolbar_text)
     TextView toolbarText;
@@ -57,7 +53,7 @@ public class NewArticleActivity extends AppCompatActivity {
     @BindString(R.string.new_article_added)
     String newArticleAdded;
 
-    DatabaseHelper dbHelper;
+    NewArticleInterface.Presenter presenter;
 
     public static Intent getLaunchIntent(Context from) {
         return new Intent(from, NewArticleActivity.class);
@@ -69,6 +65,9 @@ public class NewArticleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_article);
 
         setUI();
+
+        presenter = new NewArticlePresenter(DatabaseManager.getDatabaseInstance());
+        presenter.setView(this);
     }
 
     private void setUI() {
@@ -80,43 +79,38 @@ public class NewArticleActivity extends AppCompatActivity {
 
     @OnClick(R.id.back_button)
     void goBack() {
+        presenter.onBackClicked();
+    }
+
+    @Override
+    public void navigateBack() {
         onBackPressed();
     }
 
     @OnClick(R.id.add_article)
     void addArticle() {
-        if (checkForEmptyString()) {
-            addNewArticle();
-            Toast.makeText(App.getInstance(), newArticleAdded, Toast.LENGTH_SHORT).show();
-            onBackPressed();
-        }
+        presenter.onAddButtonClicked(authorName.getText().toString().trim(), titleName.getText().toString().trim(),
+                description.getText().toString().trim(), articleCategory.getSelectedItem().toString());
     }
 
-    private void addNewArticle() {
-        dbHelper = DatabaseHelper.getInstance();
-
-        dbHelper.addArticle(new Article(authorName.getText().toString().trim(), titleName.getText().toString().trim(),
-                description.getText().toString().trim(), articleCategory.getSelectedItem().toString()));
+    @Override
+    public void articleAdded() {
+        Toast.makeText(getApplicationContext(), newArticleAdded, Toast.LENGTH_SHORT).show();
+        presenter.onArticleAddedNavigateBack();
     }
 
-    private boolean checkForEmptyString() {
-        boolean nonEmptyField = true;
+    @Override
+    public void authorTextError() {
+        authorName.setError(blankField);
+    }
 
-        if (!StringUtils.checkIfStringNotEmpty(authorName.getText().toString().trim())) {
-            authorName.setError(blankField);
-            nonEmptyField = false;
-        }
+    @Override
+    public void titleTextError() {
+        titleName.setError(blankField);
+    }
 
-        if (!StringUtils.checkIfStringNotEmpty(titleName.getText().toString().trim())) {
-            titleName.setError(blankField);
-            nonEmptyField = false;
-        }
-
-        if (!StringUtils.checkIfStringNotEmpty(description.getText().toString().trim())) {
-            description.setError(blankField);
-            nonEmptyField = false;
-        }
-
-        return nonEmptyField;
+    @Override
+    public void descriptionTextError() {
+        description.setError(blankField);
     }
 }
