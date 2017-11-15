@@ -1,8 +1,7 @@
-package com.example.cobeosijek.articlesapp.on_board.fragments;
+package com.example.cobeosijek.articlesapp.ui.on_board.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

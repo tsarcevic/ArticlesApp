@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.article_list;
+package com.example.cobeosijek.articlesapp.ui.article_list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,13 +7,12 @@ import android.widget.TextView;
 
 import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.R;
-import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
+import com.example.cobeosijek.articlesapp.listeners.ArticleClickListener;
 
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import butterknife.OnLongClick;
 
 /**
@@ -72,11 +71,11 @@ public class ArticleHolder extends RecyclerView.ViewHolder {
         return false;
     }
 
-    public void setGray() {
+    public void setGrayBackground() {
         root.setBackgroundColor(gray);
     }
 
-    public void setWhite() {
+    public void setWhiteBackground() {
         root.setBackgroundColor(white);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.new_article;
+package com.example.cobeosijek.articlesapp.ui.new_article;
 
 /**
  * Created by COMP on 9.11.2017..
@@ -25,6 +25,6 @@ public interface NewArticleInterface {
 
         void onAddButtonClicked(String author, String title, String description, String type);
 
-        void onArticleAddedNavigateBack();
+        void onArticleAdded();
     }
 }

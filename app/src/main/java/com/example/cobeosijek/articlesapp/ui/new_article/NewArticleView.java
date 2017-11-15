@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.new_article;
+package com.example.cobeosijek.articlesapp.ui.new_article;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.database.DatabaseManager;
+import com.example.cobeosijek.articlesapp.presentation.NewArticlePresenter;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -24,7 +25,7 @@ import butterknife.OnClick;
  * Created by cobeosijek on 23/10/2017.
  */
 
-public class NewArticleActivity extends AppCompatActivity implements NewArticleInterface.View {
+public class NewArticleView extends AppCompatActivity implements NewArticleInterface.View {
 
     @BindView(R.id.toolbar_text)
     TextView toolbarText;
@@ -56,7 +57,7 @@ public class NewArticleActivity extends AppCompatActivity implements NewArticleI
     NewArticleInterface.Presenter presenter;
 
     public static Intent getLaunchIntent(Context from) {
-        return new Intent(from, NewArticleActivity.class);
+        return new Intent(from, NewArticleView.class);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class NewArticleActivity extends AppCompatActivity implements NewArticleI
 
     @Override
     public void navigateBack() {
-        onBackPressed();
+        finish();
     }
 
     @OnClick(R.id.add_article)
@@ -96,7 +97,7 @@ public class NewArticleActivity extends AppCompatActivity implements NewArticleI
     @Override
     public void articleAdded() {
         Toast.makeText(getApplicationContext(), newArticleAdded, Toast.LENGTH_SHORT).show();
-        presenter.onArticleAddedNavigateBack();
+        presenter.onArticleAdded();
     }
 
     @Override

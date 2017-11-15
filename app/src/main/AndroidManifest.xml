@@ -11,23 +11,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".article_list.ArticlesActivity"
+            android:name=".ui.article_list.ArticlesView"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".new_article.NewArticleActivity"
+            android:name=".ui.new_article.NewArticleView"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".article_detail.ArticleDetailActivity"
+            android:name=".ui.article_detail.ArticleDetailView"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".article_edit.EditArticleActivity"
+            android:name=".ui.article_edit.EditArticleView"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".on_board.StartingActivity"
+            android:name=".ui.on_board.StartingActivity"
             android:screenOrientation="portrait">
 
             <intent-filter>

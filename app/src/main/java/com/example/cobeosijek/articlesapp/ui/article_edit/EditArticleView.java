@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.article_edit;
+package com.example.cobeosijek.articlesapp.ui.article_edit;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cobeosijek.articlesapp.R;
-import com.example.cobeosijek.articlesapp.article_detail.ArticleDetailActivity;
+import com.example.cobeosijek.articlesapp.presentation.EditArticlePresenter;
+import com.example.cobeosijek.articlesapp.ui.article_detail.ArticleDetailView;
 import com.example.cobeosijek.articlesapp.database.DatabaseManager;
 
 import butterknife.BindString;
@@ -25,7 +26,7 @@ import butterknife.OnClick;
  * Created by cobeosijek on 24/10/2017.
  */
 
-public class EditArticleActivity extends AppCompatActivity implements EditArticleInterface.View {
+public class EditArticleView extends AppCompatActivity implements EditArticleInterface.View {
 
     private static String KEY_ID_EDIT_ARTICLE = "id";
     private static String KEY_RESULT_CODE_EDIT_ARTICLE = "result_code";
@@ -64,7 +65,7 @@ public class EditArticleActivity extends AppCompatActivity implements EditArticl
     EditArticleInterface.Presenter presenter;
 
     public static Intent getLaunchIntent(Context from, int id) {
-        Intent intent = new Intent(from, EditArticleActivity.class);
+        Intent intent = new Intent(from, EditArticleView.class);
         intent.putExtra(KEY_ID_EDIT_ARTICLE, id);
 
         return intent;
@@ -93,17 +94,13 @@ public class EditArticleActivity extends AppCompatActivity implements EditArticl
     private void getExtras() {
         if (getIntent().hasExtra(KEY_ID_EDIT_ARTICLE)) {
             articleId = getIntent().getIntExtra(KEY_ID_EDIT_ARTICLE, -1);
-            if (articleId == -1) {
-                presenter.noDataToShow();
-            } else {
-                presenter.showArticleInfo(articleId);
-            }
+            presenter.sendArticleId(articleId);
         }
     }
 
     @Override
     public void navigateBack() {
-        onBackPressed();
+        finish();
     }
 
     @Override
@@ -129,7 +126,7 @@ public class EditArticleActivity extends AppCompatActivity implements EditArticl
     @Override
     public void showNoArticle() {
         Toast.makeText(getApplicationContext(), noArticle, Toast.LENGTH_SHORT).show();
-        presenter.returnBack();
+        presenter.noArticleTextShown();
     }
 
     @Override
@@ -162,12 +159,12 @@ public class EditArticleActivity extends AppCompatActivity implements EditArticl
 
     @OnClick(R.id.back_button)
     public void returnBack() {
-        onBackPressed();
+        presenter.onBackClicked();
     }
 
     @Override
     public void navigateToPreviousState() {
-        setResult(RESULT_OK, ArticleDetailActivity.getResultIntent(articleId));
+        setResult(RESULT_OK, ArticleDetailView.getResultIntent(articleId));
         finish();
     }
 }

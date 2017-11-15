@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.article_list;
+package com.example.cobeosijek.articlesapp.ui.article_list;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.R;
-import com.example.cobeosijek.articlesapp.model.utils.ArticleClickListener;
+import com.example.cobeosijek.articlesapp.listeners.ArticleClickListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,10 +50,10 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleHolder> impl
         Article article = articleList.get(position);
 
         holder.setArticleInfo(article);
-        if(position%2 == 0) {
-            holder.setGray();
+        if (position % 2 == 0) {
+            holder.setGrayBackground();
         } else {
-            holder.setWhite();
+            holder.setWhiteBackground();
         }
     }
 

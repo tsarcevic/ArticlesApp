@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.on_board.fragments;
+package com.example.cobeosijek.articlesapp.ui.on_board.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,7 +34,6 @@ public class FirstFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
        return inflater.inflate(R.layout.first_fragment, container, false);
-
     }
 
     @Override

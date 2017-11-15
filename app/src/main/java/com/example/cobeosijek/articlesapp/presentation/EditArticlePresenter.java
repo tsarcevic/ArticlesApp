@@ -1,8 +1,9 @@
-package com.example.cobeosijek.articlesapp.article_edit;
+package com.example.cobeosijek.articlesapp.presentation;
 
 import com.example.cobeosijek.articlesapp.database.DatabaseInterface;
 import com.example.cobeosijek.articlesapp.model.Article;
 import com.example.cobeosijek.articlesapp.model.utils.StringUtils;
+import com.example.cobeosijek.articlesapp.ui.article_edit.EditArticleInterface;
 
 /**
  * Created by COMP on 10.11.2017..
@@ -28,12 +29,21 @@ public class EditArticlePresenter implements EditArticleInterface.Presenter {
     }
 
     @Override
+    public void sendArticleId(int articleId) {
+        if (articleId == -1) {
+            noDataToShow();
+        } else {
+            showArticleInfo(articleId);
+        }
+    }
+
+    @Override
     public void noDataToShow() {
         view.showNoArticle();
     }
 
     @Override
-    public void returnBack() {
+    public void noArticleTextShown() {
         view.navigateBack();
     }
 
@@ -81,5 +91,10 @@ public class EditArticlePresenter implements EditArticleInterface.Presenter {
     @Override
     public void returnToPreviousState() {
         view.navigateToPreviousState();
+    }
+
+    @Override
+    public void onBackClicked() {
+        view.navigateBack();
     }
 }

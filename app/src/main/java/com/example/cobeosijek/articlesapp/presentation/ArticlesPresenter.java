@@ -1,7 +1,8 @@
-package com.example.cobeosijek.articlesapp.article_list;
+package com.example.cobeosijek.articlesapp.presentation;
 
 import com.example.cobeosijek.articlesapp.database.DatabaseInterface;
 import com.example.cobeosijek.articlesapp.model.Article;
+import com.example.cobeosijek.articlesapp.ui.article_list.ArticlesInterface;
 
 import java.util.List;
 
@@ -9,25 +10,20 @@ import java.util.List;
  * Created by cobeosijek on 09/11/2017.
  */
 
-public class ArticlesActivityPresenter implements ArticlesActivityInterface.Presenter {
+public class ArticlesPresenter implements ArticlesInterface.Presenter {
 
-    protected ArticlesActivityInterface.View view;
+    protected ArticlesInterface.View view;
     protected DatabaseInterface database;
 
     protected List<Article> articleList;
 
-    public ArticlesActivityPresenter(DatabaseInterface database) {
+    public ArticlesPresenter(DatabaseInterface database) {
         this.database = database;
     }
 
     @Override
-    public void setView(ArticlesActivityInterface.View view) {
+    public void setView(ArticlesInterface.View view) {
         this.view = view;
-    }
-
-    @Override
-    public void viewReady() {
-        fetchData();
     }
 
     @Override
@@ -50,7 +46,17 @@ public class ArticlesActivityPresenter implements ArticlesActivityInterface.Pres
         database.deleteArticle(articleId);
 
         fetchData();
+//        deleteFromAdapter(articleId);
     }
+
+/*    private void deleteFromAdapter(int articleId) {
+        for (Article article : articleList) {
+            if (article.getId() == articleId) {
+                articleList.remove(article);
+                view.showArticles(articleList);
+            }
+        }
+    }*/
 
     @Override
     public void onArticleLongClicked(int articleId) {

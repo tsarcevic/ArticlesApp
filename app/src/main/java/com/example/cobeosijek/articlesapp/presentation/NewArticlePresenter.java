@@ -1,7 +1,8 @@
-package com.example.cobeosijek.articlesapp.new_article;
+package com.example.cobeosijek.articlesapp.presentation;
 
 import com.example.cobeosijek.articlesapp.database.DatabaseInterface;
 import com.example.cobeosijek.articlesapp.model.utils.StringUtils;
+import com.example.cobeosijek.articlesapp.ui.new_article.NewArticleInterface;
 
 /**
  * Created by COMP on 9.11.2017..
@@ -27,7 +28,7 @@ public class NewArticlePresenter implements NewArticleInterface.Presenter {
     }
 
     @Override
-    public void onArticleAddedNavigateBack() {
+    public void onArticleAdded() {
         view.navigateBack();
     }
 

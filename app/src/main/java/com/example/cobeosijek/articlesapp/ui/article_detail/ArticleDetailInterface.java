@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.article_detail;
+package com.example.cobeosijek.articlesapp.ui.article_detail;
 
 /**
  * Created by COMP on 10.11.2017..
@@ -35,6 +35,8 @@ public interface ArticleDetailInterface {
 
         void noDataToShow();
 
-        void noDataToShowNavigateBack();
+        void noDataShown();
+
+        void sendArticleId(int articleId);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.on_board.fragments;
+package com.example.cobeosijek.articlesapp.ui.on_board.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cobeosijek.articlesapp.R;
-import com.example.cobeosijek.articlesapp.article_list.ArticlesActivity;
+import com.example.cobeosijek.articlesapp.ui.article_list.ArticlesView;
 import com.example.cobeosijek.articlesapp.base.BaseFragment;
 
 import butterknife.BindView;
@@ -55,7 +55,7 @@ public class ThirdFragment extends BaseFragment {
 
     @OnClick(R.id.forward_button)
     public void onRightButtonCLicked() {
-        Intent intent = new Intent(getActivity(), ArticlesActivity.class);
+        Intent intent = new Intent(getActivity(), ArticlesView.class);
         startActivity(intent);
         getActivity().finish();
     }

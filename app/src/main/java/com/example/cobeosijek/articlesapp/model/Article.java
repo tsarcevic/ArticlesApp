@@ -5,7 +5,7 @@ import java.io.Serializable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-import static com.example.cobeosijek.articlesapp.model.utils.BaseModel.getValueOrEmpty;
+import static com.example.cobeosijek.articlesapp.base.BaseModel.getValueOrEmpty;
 
 /**
  * Created by cobeosijek on 20/10/2017.

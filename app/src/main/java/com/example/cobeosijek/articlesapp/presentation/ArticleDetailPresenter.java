@@ -1,7 +1,8 @@
-package com.example.cobeosijek.articlesapp.article_detail;
+package com.example.cobeosijek.articlesapp.presentation;
 
 import com.example.cobeosijek.articlesapp.database.DatabaseInterface;
 import com.example.cobeosijek.articlesapp.model.Article;
+import com.example.cobeosijek.articlesapp.ui.article_detail.ArticleDetailInterface;
 
 /**
  * Created by COMP on 10.11.2017..
@@ -24,6 +25,15 @@ public class ArticleDetailPresenter implements ArticleDetailInterface.Presenter 
     @Override
     public void viewReady() {
 
+    }
+
+    @Override
+    public void sendArticleId(int articleId) {
+        if (articleId == -1) {
+            noDataToShow();
+        } else {
+            getArticleInfo(articleId);
+        }
     }
 
     @Override
@@ -54,7 +64,7 @@ public class ArticleDetailPresenter implements ArticleDetailInterface.Presenter 
     }
 
     @Override
-    public void noDataToShowNavigateBack() {
+    public void noDataShown() {
         view.navigateBack();
     }
 }

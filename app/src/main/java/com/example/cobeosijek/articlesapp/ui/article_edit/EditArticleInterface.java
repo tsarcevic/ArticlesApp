@@ -1,4 +1,4 @@
-package com.example.cobeosijek.articlesapp.article_edit;
+package com.example.cobeosijek.articlesapp.ui.article_edit;
 
 /**
  * Created by COMP on 10.11.2017..
@@ -38,12 +38,16 @@ public interface EditArticleInterface {
 
         void noDataToShow();
 
-        void returnBack();
+        void noArticleTextShown();
 
         void showArticleInfo(int articleId);
 
         void onSaveButtonClicked(String author, String title, String description, String type);
 
         void returnToPreviousState();
+
+        void sendArticleId(int articleId);
+
+        void onBackClicked();
     }
 }

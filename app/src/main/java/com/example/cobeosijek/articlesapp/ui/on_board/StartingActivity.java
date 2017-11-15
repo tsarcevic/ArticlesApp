@@ -1,11 +1,11 @@
-package com.example.cobeosijek.articlesapp.on_board;
+package com.example.cobeosijek.articlesapp.ui.on_board;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.example.cobeosijek.articlesapp.R;
 import com.example.cobeosijek.articlesapp.base.BaseActivity;
-import com.example.cobeosijek.articlesapp.on_board.fragments.FirstFragment;
+import com.example.cobeosijek.articlesapp.ui.on_board.fragments.FirstFragment;
 
 /**
  * Created by cobeosijek on 25/10/2017.

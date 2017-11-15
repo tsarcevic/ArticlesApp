@@ -54,7 +54,6 @@ public class DatabaseHelper {
         return realm.copyFromRealm(realm.where(Article.class).findAll());
     }
 
-
     @Nullable
     public Article getArticle(int id) {
         return realm.copyFromRealm(realm.where(Article.class).equalTo("id", id).findFirst());
@@ -80,6 +79,5 @@ public class DatabaseHelper {
         }
 
         realm.commitTransaction();
-
     }
 }
